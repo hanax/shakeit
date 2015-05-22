@@ -2,6 +2,15 @@ extends layout
 block content
   .reveal_list
   .coupon_list
-  .ctrl_shake 
-    img(src='/img/btn_shake_icon.png')
-  script(src='/js/fav_list.js')
+    ul
+      if !starred
+        li(style='text-align: center;')
+          h2 Empty :'(
+      else
+        for item in starred
+          //- #{item.image}
+          li(style='background-image: url()')
+            .list_title: h2= item.name
+  a(href='/')
+    .ctrl_shake
+      img(src='/img/btn_shake_icon.png')

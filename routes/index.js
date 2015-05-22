@@ -25,8 +25,4 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'XoX' }); 
 });
 
-router.get('/fav_list.html', function(req, res, next) { 
-  res.render('fav_list', { title: 'XoX' });
-});
-
 module.exports = router;

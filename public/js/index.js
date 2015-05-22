@@ -1,4 +1,3 @@
-new Image().src="img/shake.png";
 var start, jumpToDecode, lastTime, lastAcc, isStarted = false;
 var id = -1;
 var myShakeEvent = new Shake({
@@ -52,8 +51,4 @@ window.onload = function() {
   window.addEventListener('shake', start, false);
   $('.sprite').on('click', start);
 
-
-  $('.ctrl_fav').on('click', function() {
-    window.location = "fav_list.html";
-  })
 };

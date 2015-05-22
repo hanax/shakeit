@@ -4,6 +4,17 @@ var ObjectID = require('mongodb').ObjectID;
 
 var db = require('../models/db');
 
+router.get('/fav', function(req, res) { 
+  db('items', function(items) {
+    items.find({ fav: [req.cookies.id] }).toArray(function(err, items) {
+      res.render('fav_list', {
+        title: 'XoX',
+        starred: items,
+      });
+    });
+  });
+});
+
 router.get('/:id', function(req, res) {
   // Read item from database and return
   db('items', function(items) {

@@ -105,10 +105,6 @@ window.onload = function() {
     window.location = "/";
   })
 
-
-  $('.ctrl_fav').on('click', function() {
-    window.location = "fav_list.html";
-  })
 };
 
 function findObj(item, js) {
