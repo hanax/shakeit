@@ -28,11 +28,11 @@ var localUnfav = function() {
 
     if (starred != null) {
       $.each(starred, function(i, v) {
-            if (v.name == curCoupon.name) {
-                starred.splice(i, 1);
-                return;
-            }
-        });
+        if (v.name == curCoupon.name) {
+            starred.splice(i, 1);
+            return;
+        }
+      });
       localStorage.setItem('starred', JSON.stringify(starred));
     } else {
       console.log('unstarred error');
@@ -49,6 +49,19 @@ var del = function() {
 var showStarred = function() {
   $('.img_star').hide();
   $('.img_starred').show();
+  $('.img_starred').animate({
+      opacity:1
+    }, 'slow');
+}
+
+var showStarredAndReturn = function() {
+  $('.img_star').hide();
+  $('.img_starred').show();
+  $('.img_starred').animate({
+      opacity:1
+    }, 'slow', function() {
+      window.location = '/';
+    });
 }
 
 var hideStarred = function() {
@@ -56,15 +69,22 @@ var hideStarred = function() {
   $('.img_star').show();
 }
 
+var showStarIfFaved = function() {
+  $.get('/items/' + curCoupon._id + '/faved', function(result) {
+    if (result) {
+      showStarred();
+    }
+  });
+}
+
 window.onload = function() {
-  hideStarred();
+  showStarIfFaved();
 
   $('.img_star').on('click', function() {
   	fav();
     localFav();
 
-    showStarred();
-
+    showStarredAndReturn();
   });
 
   $('.img_starred').on('click', function() { 
@@ -86,8 +106,9 @@ window.onload = function() {
   $('.share_cancel').on('click', function() {
     $('.share').animate({
         opacity:0
-      }, 'fast');
-    $('.share').hide();
+      }, 'fast', function() {
+        $(this).remove();
+      });
 
   });
 
@@ -95,7 +116,11 @@ window.onload = function() {
   $('.ctrl_del').on('click', function() {
     del();
 
-    window.location = "/";
+    window.location = '/';
+  })
+
+  $('.result').swipeRight(function(){
+    showStarredAndReturn();
   })
 
 };

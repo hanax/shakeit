@@ -7,8 +7,13 @@ var db = require('../models/db');
 router.get('/fav', function(req, res) { 
   db('items', function(items) {
     items.find({ fav: [req.cookies.id] }).toArray(function(err, items) {
+      items.forEach(function(item) {
+        if (item.image.indexOf('zdmimg.com') >= 0) {
+          item.image = "http://loremflickr.com/320/240/cute,animal";
+        }
+      });
+
       res.render('fav_list', {
-        title: 'XoX',
         starred: items,
       });
     });
@@ -19,8 +24,12 @@ router.get('/:id', function(req, res) {
   // Read item from database and return
   db('items', function(items) {
     items.findOne({ _id: ObjectID(req.params.id) }, function(err, item) {
+      item.description = item.description.replace(/阅读全文/g, '');
+      if (item.image.indexOf('zdmimg.com') >= 0) {
+        item.image = "http://loremflickr.com/320/240/cute,animal";
+      }
+
       res.render('result', {
-        title: 'OOXX',
         item: item,
       });
     });
@@ -68,6 +77,14 @@ router.post('/:id/del', function(req, res) {
     }, function(err, result) {
       res.json(result.value);
       // châo jī kê ài dè xué zhâng
+    });
+  });
+});
+
+router.get('/:id/faved', function(req, res) {
+  db('items', function(items) {
+    items.findOne({ _id: ObjectID(req.params.id) }, function(err, item) {
+      res.json(item.fav.indexOf(req.cookies.id) >= 0);
     });
   });
 });
