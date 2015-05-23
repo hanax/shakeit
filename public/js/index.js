@@ -32,7 +32,7 @@ start = function() {
 };
 
 jumpToDecode = function() {
-  window.location = "result.html?id=" + id;
+  window.location = '/items/' + id;
 };
 
 function findObj(item, js) {

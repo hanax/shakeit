@@ -19,7 +19,10 @@ router.get('/:id', function(req, res) {
   // Read item from database and return
   db('items', function(items) {
     items.findOne({ _id: ObjectID(req.params.id) }, function(err, item) {
-      res.json(item);
+      res.render('result', {
+        title: 'OOXX',
+        item: item,
+      });
     });
   });
 });
