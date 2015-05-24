@@ -3,13 +3,14 @@ var router = express.Router();
 var ObjectID = require('mongodb').ObjectID;
 
 var db = require('../models/db');
+var raccoon = require('../models/raccoon');
 
 router.get('/fav', function(req, res) { 
   db('items', function(items) {
     items.find({ fav: [req.cookies.id] }).toArray(function(err, items) {
       items.forEach(function(item) {
         if (item.image.indexOf('zdmimg.com') >= 0) {
-          item.image = "http://loremflickr.com/320/240/cute,animal";
+          item.image = "http://loremflickr.com/320/240/cute,cat";
         }
       });
 
@@ -26,7 +27,7 @@ router.get('/:id', function(req, res) {
     items.findOne({ _id: ObjectID(req.params.id) }, function(err, item) {
       item.description = item.description.replace(/阅读全文/g, '');
       if (item.image.indexOf('zdmimg.com') >= 0) {
-        item.image = "http://loremflickr.com/320/240/cute,animal";
+        item.image = "http://loremflickr.com/320/240/cute,cat";
       }
 
       res.render('result', {
@@ -45,6 +46,8 @@ router.post('/:id/fav', function(req, res) {
     }, {
       returnOriginal: false
     }, function(err, result) {
+      raccoon.liked(req.cookies.id, req.params.id);      
+      
       res.json(result.value);
       // châo jī kê ài dè xué zhâng
     });
@@ -60,6 +63,8 @@ router.post('/:id/unfav', function(req, res) {
     }, {
       returnOriginal: false
     }, function(err, result) {
+      raccoon.disliked(req.cookies.id, req.params.id);  
+
       res.json(result.value);
       // châo jī kê ài dè xué zhâng
     });

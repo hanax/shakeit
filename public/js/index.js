@@ -10,8 +10,12 @@ start = function() {
   $('.sprite').hide(); 
   $('.ctrl_fav').hide();
 
-  $.get('/jump', function(item) {
-    id = item._id; 
+  $.get('/jump', function(_id) {
+    console.log('hiiii there', _id);
+    id = _id; 
+
+
+    setTimeout(jumpToDecode, 2000);
   });
 
   // $.getJSON('data/data.json', function(data) {
@@ -27,8 +31,6 @@ start = function() {
   //     }
   //   }
   // });
-
-  setTimeout(jumpToDecode, 2000);
 };
 
 jumpToDecode = function() {

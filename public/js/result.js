@@ -14,7 +14,7 @@ var localFav = function () {
     } else {
       localStorage.setItem('starred', JSON.stringify([curCoupon]));
     }
-}
+};
 
 var unfav = function() {
   $.post('/items/' + curCoupon._id + '/unfav', function(result) {
@@ -37,7 +37,7 @@ var localUnfav = function() {
     } else {
       console.log('unstarred error');
     }
-}
+};
 
 var del = function() {
   $.post('/items/' + curCoupon._id + '/del', function(result) {
@@ -52,7 +52,7 @@ var showStarred = function() {
   $('.img_starred').animate({
       opacity:1
     }, 'slow');
-}
+};
 
 var showStarredAndReturn = function() {
   $('.img_star').hide();
@@ -62,12 +62,18 @@ var showStarredAndReturn = function() {
     }, 'slow', function() {
       window.location = '/';
     });
-}
+};
+
+var delAndReturn = function() {
+    del();
+
+    window.location = '/';
+};
 
 var hideStarred = function() {
   $('.img_starred').hide();
   $('.img_star').show();
-}
+};
 
 var showStarIfFaved = function() {
   $.get('/items/' + curCoupon._id + '/faved', function(result) {
@@ -75,6 +81,21 @@ var showStarIfFaved = function() {
       showStarred();
     }
   });
+};
+
+var showShare = function() {
+  $('.share').show();
+    $('.share').animate({
+        opacity:1
+      }, 'fast');
+}
+
+var hideShare = function() {
+  $('.share').animate({
+      opacity:0
+    }, 'fast', function() {
+      $(this).hide();
+    });
 }
 
 window.onload = function() {
@@ -96,31 +117,33 @@ window.onload = function() {
   });
 
   $('.ctrl_share').on('click', function() {
-    $('.share').show();
-    $('.share').animate({
-        opacity:1
-      }, 'fast');
-
+    showShare();
   });
 
-  $('.share_cancel').on('click', function() {
-    $('.share').animate({
-        opacity:0
-      }, 'fast', function() {
-        $(this).remove();
-      });
-
+  $('.share_cancel, .share_bg').on('click', function() {
+    hideShare();
   });
-
 
   $('.ctrl_del').on('click', function() {
-    del();
+    delAndReturn();
+  })
 
-    window.location = '/';
+  // Gestures
+
+  $('.result').swipeLeft(function(){
+    showStarredAndReturn();
   })
 
   $('.result').swipeRight(function(){
-    showStarredAndReturn();
+    delAndReturn();
+  })
+
+  $('.result').swipeUp(function(){
+    showShare();
+  })
+
+  $('.result, .share_bg').swipeDown(function(){
+    hideShare();
   })
 
 };

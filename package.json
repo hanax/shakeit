@@ -17,6 +17,8 @@
     "jade": "~1.9.2",
     "mongodb": "^2.0.31",
     "morgan": "~1.5.1",
+    "raccoon": "^0.2.3",
+    "redis": "^0.12.1",
     "serve-favicon": "~2.2.0",
     "shortid": "^2.2.2"
   }
